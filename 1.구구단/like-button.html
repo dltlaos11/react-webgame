@@ -1,0 +1,77 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>웹게임</title>
+</head>
+<body>
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<!--<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script> 실무에서는 웹팩, 바벨로 처리, 배포용 !-->
+<!--<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>-->
+
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script type="text/babel">
+    // 위의 2줄은 바벨 추가 코드 
+
+
+    'use strict';
+    // 17버전 코드, Class 사용
+    class LikeButton extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {Liked: false}; 
+            // state, 데이터
+            // 화면에 바뀔 부분을 state
+        }
+        render() {
+            if (this.state.liked) {
+                return 'You Liked this';
+            }
+
+            // return React.createElement('button', {onClick: () => this.setState({liked: true})}, 'Like');
+            // render에 return 부분, 화면
+            // 데이터 + 화면: component
+            // createElement너무 불편해서 아래의 JSX로 바꿈
+        
+
+            // addEventListener('click', ()=> this.setState({liked: true}));
+            return ( // JSX, xml 소문자 태그사용 <button>
+                <button onClick={ ()=> this.setState({liked: true})} obj={{a:'b', c:'d'}}>
+                    Like    {1 + 1}
+                    {this.state.liked ? 'Liked' : 'Like!'} 
+                    {[1, 2, 3].map((i) => {
+                        return <div>i</div>;
+                    })}
+                </button>
+                // JSX에서 js코드는 중괄호로 한 번 감싼다. {1 + 1}
+                // JSX에서 if문 대신 3항 연산자 사용 => JSX에 한계가 많아서 for문과 if문 사용 못함.
+                // for문 대신 배열을 자주 사용해서 map으로 값 표현
+
+                // return에는 하나의 부모태그로 감싸줘야한다. <></> fragment 라함
+            )
+            // 근데 위 JSX 코드에서 <script> 태그안에서, 즉 js안에서 태그 쓰는 문법은 없다. 당연히 에러가 난다. 그래서 안돌아가는 코드
+            // 그러면 어떻게 코딩하냐? 그래서 React에 바벨이라는 라이브러리가 위의 JSX코드를 보면 태그 부분을 몰래 createElement로 바꿔준다.
+            // 바벨이 JSX코드에서 태그들을 강제로 바꿔서 잘 돌아가게 해준다.
+            
+        }
+    }
+</script>
+<script type="text/babel">
+    // ReactDOM.render(React.createElement (LikeButton), document.querySelector('#root')); // ReactDOM, createElement
+
+    // ReactDOM.render(<LikeButton />, document.querySelector('#root')); // JSX, 컴포넌트를 root안에다 그려라 || React 17버전 코드
+    // React 17버전 코드인 render를 사용해도 된다. 단, React 17 버전으로 인식해서 18버전 기능이 돌아가지 않는다.
+
+    ReactDOM.createRoot(document.querySelector('#root')).render(
+        <div>
+        <LikeButton />
+        <LikeButton />
+        <LikeButton />
+        <LikeButton />
+        </div>
+    ); // createRoot로 바뀜 React 18버전 코드
+    // 17버전 코드인지 18버전 코드인지 확인하고 싶으면 createRoot인지 render인지 구별하기
+</script>
+</body>
+</html>
