@@ -14,9 +14,30 @@
 <script type="text/babel">
     // 위의 2줄은 바벨 추가 코드 
 
+    // 함수 컴포넌트🔘
+    const LikeButton = () => { // 함수형 컴포넌트 X 함수 컴포넌트 O
+        // this 쓸 일이 없다.
+        const [liked, setliked] = React.useState(false); // 구조분해
+        const [news, setNews] = React.useState(['뉴스1', '뉴스2', '뉴스3', '뉴스4','뉴스5']);
+        const [category, setCategory] = React.setState(['스포츠', '연예', '경제', '서사']);
+
+        if (category === '뉴스') {
+            return '뉴스화면';
+        }
+
+        // 뭔짓을 하든, 결국 return인게 화면
+        if (liked) {
+            return 'You liked this';
+        }
+        return(
+            <button onClick={() =>{setliked(true);}}>Like</button>
+        );
+    }
+
+
 
     'use strict';
-    // 17버전 코드, Class 사용
+    // 17버전 코드, Class 사용🔘
     class LikeButton extends React.Component {
         constructor(props) {
             super(props);
@@ -24,7 +45,9 @@
             // state, 데이터
             // 화면에 바뀔 부분을 state
         }
-        render() {
+
+
+        render() { // return 부분이 화면을 그리는 부분
             if (this.state.liked) {
                 return 'You Liked this';
             }
@@ -35,8 +58,19 @@
             // createElement너무 불편해서 아래의 JSX로 바꿈
         
 
+            const array = []; // 배열도 객체
+            // pop, push, shift, unshift, splice => 배열을 직접적으로 수정, 배열을 직접수정하는 함수들은 쓰면 안된다.🔘
+            // concat, slice => 새로운 배열을 만들어냄 
+
+
             // addEventListener('click', ()=> this.setState({liked: true}));
-            return ( // JSX, xml 소문자 태그사용 <button>
+            return ( // JSX, xml 소문자 태그사용 <button>🔘
+                <>
+                <button onClick={ ()=> {
+                        this.state.liked =true; // 3.객체를 함부로 바꾸지 마라(불변성), 복사해라 concat, slice 사용 !🔘
+                    }}> Like</button>
+
+
                 <button onClick={ ()=> this.setState({liked: true})} obj={{a:'b', c:'d'}}>
                     Like    {1 + 1}
                     {this.state.liked ? 'Liked' : 'Like!'} 
@@ -44,6 +78,7 @@
                         return <div>i</div>;
                     })}
                 </button>
+                </> 
                 // JSX에서 js코드는 중괄호로 한 번 감싼다. {1 + 1}
                 // JSX에서 if문 대신 3항 연산자 사용 => JSX에 한계가 많아서 for문과 if문 사용 못함.
                 // for문 대신 배열을 자주 사용해서 map으로 값 표현
@@ -57,6 +92,34 @@
         }
     }
 </script>
+<script>
+    // Class를 이상하게 쓰는 변종들도 많다.😨 예전에 많이 쓰던 방식
+    class LikeButton extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state ={liked:false};
+            this.onClickButton = this.onClickButton.bind(this); //🔘 bind
+        }
+
+        onClickButton() {
+            this.setState({liked:true});
+        }
+
+
+        // state = {liked:false}; // 생성자를 사용 안하는 방식
+
+        // onClickButton = () => { 🔘화살표 함수
+        //     this.setState({liked:true});
+        // }
+        
+        render() {
+            return(
+                <button onClick={this.onClickButton}>Like</button>
+            )
+        }
+    }
+</script>
+
 <script type="text/babel">
     // ReactDOM.render(React.createElement (LikeButton), document.querySelector('#root')); // ReactDOM, createElement
 
@@ -70,8 +133,8 @@
         <LikeButton />
         <LikeButton />
         </div>
-    ); // createRoot로 바뀜 React 18버전 코드
-    // 17버전 코드인지 18버전 코드인지 확인하고 싶으면 createRoot인지 render인지 구별하기
+    ); // createRoot로 바뀜 React 18버전 코드🔘
+    // 17버전 코드인지 18버전 코드인지 확인하고 싶으면 createRoot인지 render인지 구별하기🔘
 </script>
 </body>
 </html>
