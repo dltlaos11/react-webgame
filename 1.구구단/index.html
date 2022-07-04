@@ -42,19 +42,21 @@
                         result: '땡',
                         value: '',
                     });
-                    this.input.focus(); // DOM(Document object model)선택 됨
+                    this.input.focus(); // submit 후 DOM(Document object model)이 다시 선택 됨
                 }
             }; // 클래스 메서드, arraow fun 유지
 
     input;
 
+    onRefInput = (c) => {this.input = c;};
+
     render() {
-        console.log('렌더링'); // setState를 할 때는 render 함수가 다시 실행된다. 성능최적화 할 떄.. 참고
+        console.log('렌더링'); // setState를 할 때마다 render 함수가 다시 실행된다. 성능최적화 할 떄.. 참고
       return (
         <div>
             <div>{this.state.first} 곱하기 {this.state.second}는?</div>
             <form onSubmit={this.onSubmit}>
-                <input ref={(c) => {this.input = c;}} type="number" value={this.state.value} onChange={this.onChange}/>
+                <input ref={this.onRefInput} type="number" value={this.state.value} onChange={this.onChange}/>
                 {
                     // input 태그에서 value에 초깃값 지정 후 onChange, setState 사용하여 값 변화 보여줌, type으로 형 정하기
                     // onclick, onchange, onsubmit, onload, oninput, onfocus, onblur || react에서는 on뒤에 대문자
