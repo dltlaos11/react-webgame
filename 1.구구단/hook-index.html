@@ -63,6 +63,15 @@
 </script>
 <script type="text/babel">
     ReactDOM.createRoot(document.querySelector('#root')).render(<GuGuDan />);
+    // 구구단 웹팩으로 빌드하기 🟢
+    // 시작: npm init
+    // package, name, license: MIT 설정
+    // npm i react react-dom
+    // npm i -D webpack webpack-cli
+    // npm i -D @babel/core @babel/preset-env: preset-env알아서 환경에 맞게 옛브라우저라도 알아서 환경에 맞게 바벨로 맞춰준다.
+    // npm i -D @babel/preset-react babel-loader: preset-react jsx사용가능
+    // webpack.config.js 파일 생성 후 module 설정
+    // 기존 파일 client.jsx, GuGuDan.jsx로 나누기
 </script>
 </body>
 </html>
