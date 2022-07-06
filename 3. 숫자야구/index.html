@@ -1,0 +1,40 @@
+<!-- <script src="index.js">
+     src에서 js파일을 가져오면 위와 같이 하면 스크립트 간 중복이 발생한다. 
+     중복이 발생하면 ❌
+     "소크라"라는 사람이 웹팩이라는 시스템을 만들었다. 
+     여러개의 js파일을(페이스북처럼 2만개의 파일을) 하나의 js파일로 만드는 기술, 이것이 "웹팩"🟢
+
+     웹팩🔵
+     하나로 합치면서 바벨적용 가능, 불필요 코드 제거 등 
+     웹팩을 하려면 node를 알아야 한다. node는 js실행기 그 이상 이하도 아니다.
+     웹팩도 자바스크립트, node(js실행기)가 실행해주는 것. react할 떄 node를 알아야 한다는 말은 
+     웹팩을 돌리기 위한 js를 실행해야 한다.
+     npm init 하고 package, author아무렇게나 치고 계속 enter하고 licen에 MIT 적용
+     이러면 package.json이 생긴다.
+     이곳에 react 개발에 필요한 package를 넣으면 된다.
+     가장 먼저 필요한 것은 react랑 React-DOM이 필요(npm i react react-dom: react와 react-dom을 설치하겠다)
+     npm i -D webpack webpack-cli: react에서 webpack 개발할 때 설치해줘야 한다. 
+     -D는 개발에서 밖에 안쓰이는 것을 의미. 실제 서비스 할 떄는 webpack 필요 없다. 개발할 때만 필요.
+
+    "dependencies": {
+     "react": "^18.2.0",
+     "react-dom": "^18.2.0"
+   }, 실제 서비스에서 쓰이는 것들
+   "devDependencies": {
+     "webpack": "^5.73.0",
+     "webpack-cli": "^4.10.0"
+   } 개발에서 쓰이는 것들
+</script> -->
+
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>숫자야구</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script src="./dist/app.js">
+
+        </script>
+    </body>
+</html>
