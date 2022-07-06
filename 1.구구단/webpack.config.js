@@ -55,6 +55,8 @@ module.exports = {
 // code작성할 때 entry, module, plugins, output 코드 작성할 때 이 순서대로 작성하기 ! 
 // entry에 있는 파일에 module 적용하고 module 다 적용한 후에 추가적으로 plugin 한번 더 적용하고 output으로 결과 도출. 
 
+// 응답 메시지
+
 // 지원하는 브라우저🟢 
 // Using targets:
 // {
