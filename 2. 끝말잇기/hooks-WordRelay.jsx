@@ -48,6 +48,7 @@ const WordRelay = () => {
          언컨트롤드 인풋: value와 onChange가 없는 것 input의 원시적인 형태와 유사, 기본적으로 react에서는 컨트롤드 인풋 권장
          하지만 간단한 형태의 경우 언컨트롤드 인풋으로도 충분히 가능, 
          언컨트롤드 인풋이 가능한 경우: onSubmit에서만 특정 동작을 하는 경우, 해당되는 함수안에서만 value가 사용되는 경우, 함수 밖에서 사용되면 ❌, 초깃값 지정(defaultValue)
+         언컨트롤드 인풋에 value 넣는 순간 컨트롤드 인풋으로 간주
          컨트롤드 인풋이 가능한 경우: 비번이 최소 8자 이상인데 4자를 적는경우 밑에 빨간줄이 뜬다 -> dynamic input, 
          비번이 최소 8자 이상인데 4자를 적는경우 submit button이 안눌리도록 -> conditionally disabling submit button, 등 
          */}
