@@ -47,9 +47,10 @@ class NumberBaseball extends Component {
         if (value === answer.join('')){
             this.setState(
                 (prevState) => {
+                // 옛날 값으로 현재 값을 할 때는 함수형 Setstate 사용🟢 
                 // Setstate 사용 방법1, 함수로 사용하면 예전 state를 사용할 수 있을 뿐더러 더 미세한 작업이 가능. "Setstate함수 안에 다른 함수를 넣는 경우". 자유도 업🟢
               return { result: '홈런!',
-                tries: [...tries, {try: value, result: '홈런!'}], // push 안쓰고 새로운 배열 만들어서 react가 뭐가 바꼈는지 알 수 있도록 
+                tries: [...prevState.tries, {try: value, result: '홈런!'}], // push 안쓰고 새로운 배열 만들어서 react가 뭐가 바꼈는지 알 수 있도록 
             }
             }// 일급객체 혹은 일급함수🟢
             );
@@ -86,9 +87,8 @@ class NumberBaseball extends Component {
                         ball += 1;
                     }
                 }
-                this.setState({
-                    tries: [...tries, {try: value, result: `${strike} 스트라이크 ${ball} 볼입니다`}],
-                    value: '',
+                this.setState((prevState) => {
+                    return {tries: [...prevState.tries, {try: value, result: `${strike} 스트라이크 ${ball} 볼입니다`}], value: '',}; // 옛날 state로 현재 state를 만들 때는 함수형 state
                 });
                 // this.inputRef.focus();
                 this.inputRef.current.focus();
