@@ -31,11 +31,28 @@ class NumberBaseball extends Component {
                 <div>시도: {this.state.tries.length}</div>
                 <ul>
                     {
-                    ['사과','바나나','포도','귤','감',].map((e)=>{
+                    [['사과', '맛없네 !!'],['바나나', '그래?!'],['포도', '그래 !'],['귤', 'ㅜㅜ'],['감', '에휴'],].map((e)=>{
                         return (
-                            <li>{e}</li>
+                            <li key={e[0]}><b>{e[0]}</b> {e[1]}</li>
                         );
                     }) // React 반복문 (map)🟢, 반복되는 것을 배열로 만들기
+                    }
+                    {
+                    [
+                        {fruit: '감', taste: '맛있다'},
+                        {fruit: '뀰', taste: '시다'},
+                        {fruit: '밤', taste: '달다'},
+                        {fruit: '배', taste: '맛없다.'},
+                        {fruit: '감', taste: '엥!'},
+                    ].map((e, i)=>
+                         (
+                            <li key={e.fruit+e.taste}><b>{e.fruit}</b> {e.taste + i}</li>
+                        ) // 중괄호랑 return 지움
+                    ) // React 반복문 (map)🟢, 단, map을 사용해 반복문을 만들 시, key🟢를 사용해야 한다. "key는 고유한 값" 
+                       // 리액트가 key를 보고 같은 컴포넌트인지 아닌지 판단🟢  
+                       // 하지만 위 같은 경우 e.fruit으로 key를 설정하면 고유하지 않은 값이다. 그럴 경우엔 고유한 값으로 만들어줘야 함. => "e.fruit+e.taste"가 key가 되면 된다.
+                       // map의 콜백함수 2번째 인자값은 인덱스: i인데, key에 고유한 값으로 대입하면 안된다. 성능 최적화에 문제가 생길 수 있다. 진짜 넣어도 e.fruit+i 이렇게 넣자. 근데 그냥 key에는 Index값 사용하지 말기🟢
+                       // react에서 성능최적화 할때 key를 보고 판단해서 i를 하면 뭐가 바뀌었는지 알아차리기가 어렵다.. 단지 리스트면 i를 넣어도 됨.. 
                     }
                 </ul>
             </>
