@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import Try from './TryHooks';
 
 const getNumbers= () => {
@@ -16,11 +16,12 @@ const NumberBaseball = () => {
     const [value, setValue] = useState('');
     const [answer, setAnswer] = useState(getNumbers); // lazy init, 늦은 초기화: 함수가 호출되서 리턴값을 돌려줄 떄까지 react가 기다려준다고 해서 lazy init기법 
     // const [answer, setAnswer] = useState(getNumbers()); // 상관은 없지만..!
-    // NumberBaseball은 함수 컴포넌트,함수 컴포넌트 특성상 매번 리렌더링 될 때마다 함수 컴포넌트 전체 부분이 실행된다. 
+    // NumberBaseball은 함수 컴포넌트,함수 컴포넌트 특성상 매번 리렌더링 될 때마다 함수 컴포넌트 전체 부분🟢이 실행된다.   useMemo, useCallback사용하면 되지만 useEffect를 먼저 배우고 해야..!
     // getNumbers()는 매번 적용되는게 아니라 처음 한번만 적용되는거라 상관은 없다, 리렌더링 될 떄마다 쓸데없이 매번 실행되는게(호출되는게) 문제다.
     // 그럴경우 useState() 자리에 함수를 넣어주면 된다.
     // useState 용법 중 값이 아닌 함수가🟢 넘어가면 함수의 리턴값이 answer로 들어가고 그 다음부터는 getNumbers가 실행되지 않는다. 
-    const [tries, setTries] = useState([]);
+    const [tries, setTries] = useState([]);  
+    const inputRef = useRef(null);
 
 const onSubmitForm = (e) => {
     e.preventDefault();
@@ -48,7 +49,7 @@ const onSubmitForm = (e) => {
         //     return array;
         // }); getNumbers를 넣은게 운이 좋게도 동작을 한다.. 하지만 이러면 안된다.
         setTries([]);
-        // this.inputRef.current.focus();
+        inputRef.current.focus();
     } else { // 답 틀렸으면
         const answerArray = value.split('').map((v)=>parseInt(v));
         let strike = 0;
@@ -59,7 +60,7 @@ const onSubmitForm = (e) => {
             setValue('');
             setAnswer(getNumbers());
             setTries([]);
-            // this.inputRef.current.focus();
+            inputRef.current.focus();
         } else {
             for (let i = 0; i < 4; i+=1){
                 if (answerArray[i] === answer[i]){
@@ -70,7 +71,7 @@ const onSubmitForm = (e) => {
             }
             setTries((prevTries)=> [...prevTries, {try: value, result: `${strike} 스트라이크 ${ball} 볼입니다`}]);
             setValue('');
-            // this.inputRef.current.focus();
+            inputRef.current.focus();
         }
     }
 }; // 화살표 함수를 안쓰면 constructor를 다시 써야하는데 code 이해가 어려우므로.. arrow function사용
@@ -83,7 +84,7 @@ const onChangeInput = (e) => {
         <>
                 <h1>{result}</h1>
                 <form onSubmit={onSubmitForm}>
-                    <input  maxLength={4} value={value} onChange={onChangeInput} /> {/* ref={this.onInputRef} */}
+                    <input ref={inputRef} maxLength={4} value={value} onChange={onChangeInput} /> {/* ref={this.onInputRef} */}
                     {/* html에서는 maxlength이지만 react에서는 모든 2번째 단어가 대문자, value, onChange는 SET다🟢  만약 value, onChange 같이 안할꺼면 defaultValue={this.state.value}*/}
                 </form>
                 <div>시도: {tries.length}</div>

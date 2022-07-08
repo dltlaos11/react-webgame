@@ -14,11 +14,11 @@ module.exports = {
     // 🖐중요🖐
     entry: {
         app: ['./client', './NumberBaseball'], 
-        // 근데 clients.jsx에서 이미 WrodRelay를 불러오고 있다. 이런걸 webpack이 알아서 다 파악한다.(뭐가 뭐를 불러오는지)
-        // 그래서 이미 다른 파일이 불러오는 파일은 적어줄 필요가 없다.(wordRelay를 안적어줘도 된다.) 파일 쪼갤 때 사용하던
+        // 근데 clients.jsx에서 이미 NumberBaseball를 불러오고 있다. 이런걸 webpack이 알아서 다 파악한다.(뭐가 뭐를 불러오는지)
+        // 그래서 이미 다른 파일이 불러오는 파일은 적어줄 필요가 없다.(NumberBaseball를 안적어줘도 된다.) 파일 쪼갤 때 사용하던
         // react랑 react-dom도 같이 불러오고 !!🟢
 
-    }, // 입력, 목표: client, wordrelay를 app.js 파일 하나 만들어서 html이 실행할 수 있게 해주는 것. 
+    }, // 입력, 목표: client, NumberBaseball를 app.js 파일 하나 만들어서 html이 실행할 수 있게 해주는 것. 
 
     // 웹팩으로 빌드하기🟢
     module: {
@@ -49,7 +49,7 @@ module.exports = {
     // 웹팩 설정할 떄🟢 순서에 맞게 entry는 파일을 읽고 modules을 적용한 후 output에 뺀다.
     // 결국엔 웹팩 설정으로 알아서 jsx, js 파일을 babel 적용해준다.
     // npx webpack or npm run dev로 빌드하면 dist에 app.js파일 생긴다.
-    // 이후에 터미널에 성공 메세지 확인이 가능하다. asset app.js [emitted] client.jsx,WordRelay[built]😀
+    // 이후에 터미널에 성공 메세지 확인이 가능하다. asset app.js [emitted] client.jsx,NumberBaseball[built]😀
 
 
     plugins: [

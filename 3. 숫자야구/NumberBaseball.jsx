@@ -9,7 +9,7 @@ function getNumbers() { // 숫자 네 개를 겹치지 않고 랜점하게 뽑�
         array.push(chosen);
     }
     return array;
-} // this 안쓰는 경우 바깥에다 뺀다.  
+};  // this 안쓰는 경우 바깥에다 뺀다.  
          
 class NumberBaseball extends Component {
     state = {
@@ -110,7 +110,7 @@ class NumberBaseball extends Component {
     //     {fruit: '배', taste: '맛없다.'},
     // ];
 
-    inputRef = createRef(); // createRef 적용, 클래스에서도 current로 통일해 사용하기 위해🟢
+    inputRef = createRef(); // createRef 적용, 클래스에서도 current로 통일해 사용하기 위해🟢 this.inputRef = createRef
 
     // inputRef;
 
