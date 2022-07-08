@@ -8,7 +8,9 @@ const ReactDOM = require('react-dom'); // react랑 react-dom 패키지를 npm에
 // import React from 'react'; 
 // import ReactDOM from 'react-dom'; 
 
-import NumberBaseball from './NumberBaseball'; // export default NumberBaseball 때문에 import 사용
+import NumberBaseball from './NumberBaseballHooks'; // export default NumberBaseball 때문에 import 사용
+
+import Test from './RenderTest'; //렌더링, shouldComponentUpdate
 
 
 ReactDOM.createRoot(document.querySelector('#root')).render(<NumberBaseball />);

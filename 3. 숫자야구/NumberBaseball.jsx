@@ -124,6 +124,9 @@ class NumberBaseball extends Component {
 
     render() { // render는 화살표 함수 안써도 된다. extends Component 부분에서 처리해준다.
         const { result, value, tries} = this.state; // 구조 분해로 this.state 생략가능 
+        // this.setState({
+        // }); render() 안에서 this.setState 사용하면 무한반복되서 ❌, this.setState하면 render가 실행되고 render가 실행되면 this.setState가 실행되고 무한반복🥶 문제가 생김.
+        // render() 안에 setState 사용 금지🟢 
         return (
             <>
                 <h1>{result}</h1>
