@@ -82,32 +82,41 @@ const onChangeInput = (e) => {
 
     return (
         <>
-                <h1>{result}</h1>
-                <form onSubmit={onSubmitForm}>
-                    <input ref={inputRef} maxLength={4} value={value} onChange={onChangeInput} /> {/* ref={this.onInputRef} */}
-                    {/* html에서는 maxlength이지만 react에서는 모든 2번째 단어가 대문자, value, onChange는 SET다🟢  만약 value, onChange 같이 안할꺼면 defaultValue={this.state.value}*/}
-                </form>
-                <div>시도: {tries.length}</div>
-                <ul>
-
+            <h1>{result}</h1>
+            <form onSubmit={onSubmitForm}>
+                <input ref={inputRef} maxLength={4} value={value} onChange={onChangeInput} /> {/* ref={this.onInputRef} */}
+                {/* html에서는 maxlength이지만 react에서는 모든 2번째 단어가 대문자, value, onChange는 SET다🟢  만약 value, onChange 같이 안할꺼면 defaultValue={this.state.value}*/}
+            </form>
+            <div>시도: {tries.length}</div>
+            <ul>
+                {/* {
+                (()=>{ // {} 사용하면 js문법 사용가능하고 함수 안에서 if문, for문이 가능"🔘🔘
+                    const array = [];
+                    for (let i =0; i <tries.length; i++){
+                        array.push(<Try key={`${i+1}차 시도: `} tryInfo={e} /> );
+                    }
+                    return array;
+                })()
+                // 하지만 자식 컴포넌트로 뺴던가 함수로 만드는 것이 가장 좋다. 
+                } */}
                 {tries.map((e, i)=>  // {try: this.state.value, result: `${strike} 스트라이크 ${ball} 볼입니다`}: e, e.try&e.result
-                            {return (
-                                <Try key={`${i+1}차 시도: `} tryInfo={e} /> 
-                                // memo🟢로 억울한 리랜더링 막기🟢 PureComponent🟢
-                                // RenderTest.jsx처럼 Devtool로 자식 컴포넌트의 리렌더링을 확인 할 수 있다.
-                                // 컴포넌트는 state, props가 바뀌면 리랜더링 된다. 또 하나의 경우가 더 있는데
-                                // 부모-자식 컴포넌트 사이에, 부모 컴포넌트가 렌더링 되먄 자식 컴포넌트도 무조건 리렌더링 된다.
-                                // 그것을 방지하기 위해선 PureComponent를 사용해야 한다. 클래스에서는 PureComponent를 사용하면 되지만 함수 컴포넌트에는 PureComponent가 없다. 
-                                // PureComponent는 state가 달라졌을 때만 리렌더링 기능외에도 props가 달라져도 리렌더링 되는 기능이 있다. 
-                                // 그럴 때 사용하는 것이 'react'에 있는 'memo'🟢컴포넌트다. memo는 PureComponent의 역할을 하며 부모가 리렌더링 되도 자식의 리렌더링을 막는다.🟢
-                                // 함수 컴포넌트에서 함수 부분을 memo()로 감싸면된다. 
+                        {return (
+                            <Try key={`${i+1}차 시도: `} tryInfo={e} /> 
+                            // memo🟢로 억울한 리랜더링 막기🟢 PureComponent🟢
+                            // RenderTest.jsx처럼 Devtool로 자식 컴포넌트의 리렌더링을 확인 할 수 있다.
+                            // 컴포넌트는 state, props가 바뀌면 리랜더링 된다. 또 하나의 경우가 더 있는데
+                            // 부모-자식 컴포넌트 사이에, 부모 컴포넌트가 렌더링 되먄 자식 컴포넌트도 무조건 리렌더링 된다.
+                            // 그것을 방지하기 위해선 PureComponent를 사용해야 한다. 클래스에서는 PureComponent를 사용하면 되지만 함수 컴포넌트에는 PureComponent가 없다. 
+                            // PureComponent는 state가 달라졌을 때만 리렌더링 기능외에도 props가 달라져도 리렌더링 되는 기능이 있다. 
+                            // 그럴 때 사용하는 것이 'react'에 있는 'memo'🟢컴포넌트다. memo는 PureComponent의 역할을 하며 부모가 리렌더링 되도 자식의 리렌더링을 막는다.🟢
+                            // 함수 컴포넌트에서 함수 부분을 memo()로 감싸면된다. 
 
-                                // 결론: 성능 문제가 없다면 굳이 안써도 된다. 하지만 성능 문제가 생긴다면 "PureComponent와 memo 적용하기"🟢🟢
-                            );
-                        })}
+                            // 결론: 성능 문제가 없다면 굳이 안써도 된다. 하지만 성능 문제가 생긴다면 "PureComponent와 memo 적용하기"🟢🟢
+                        );
+                    })}
 
-                </ul>
-            </>
+            </ul>
+        </>
     );
 }
 

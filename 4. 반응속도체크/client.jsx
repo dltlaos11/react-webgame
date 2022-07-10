@@ -6,6 +6,7 @@
 import React from 'react'; 
 import ReactDOM from 'react-dom'; 
 
-import ResponseCheck from './ResponseCheckClass'; // export default ResponseCheck 때문에 import 사용
+// import ResponseCheck from './ResponseCheckClass'; // export default ResponseCheck 때문에 import 사용
+import ResponseCheck from './ResponseCheckHooks'; // export default ResponseCheck 때문에 import 사용
 
 ReactDOM.createRoot(document.querySelector('#root')).render(<ResponseCheck />);
