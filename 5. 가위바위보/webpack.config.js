@@ -27,7 +27,7 @@ module.exports = {
             loader: 'babel-loader',
             options: {
                 presets: [ // presets에 대한 설정🟢 
-                ['@babel/preset-env', {
+                ['@babel/preset-env', { 
                     targets: {
                         browsers: ['> 5% in KR','last 2 chrome version'], 
                         // 지원하고자 하는 브라우저에만 맞춰서 설정 가능, browserslist 사이트 참고 !!  😎

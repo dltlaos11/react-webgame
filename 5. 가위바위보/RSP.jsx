@@ -17,7 +17,7 @@ const computerChoice = (imgCoord) => { // 컴퓨터가 묵-찌-빠 중 뭘 내�
     // return Object.entries(rspCoords).find(function(v) {
     //     return v[1] === imgCoord;
     //   })[0];
-};
+}; 
 
 const RSP = () => { // state, props 바뀔 떄마다 함수 컴포넌트 전체 다시 시작
     const [result, setResult] = useState('');

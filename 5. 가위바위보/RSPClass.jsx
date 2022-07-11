@@ -38,7 +38,7 @@ class RSP extends Component {
     // RSP 컴포넌트가 client에서 불려와서 렌더링 되는데 렌더링 될 떄 DOM에 붙는 순간이 있다. 그 순간에 특정한 동작이 가능
     // render함수가 실행되면 react가 이 jsx를 DOM에 붙여준다. 붙여주고 난 바로 그 순간에 특정한 동작을 할 수 있다.
 
-    interval;
+    interval; 
 
      componentDidMount() { // 컴포넌트가 첫 렌더링 된 후🔵 여기에 비동기 요청을 많이 한다.🔵
         // 렌더가 처음 실행되고 렌더가 성공적으로 실행됐다면 componentDidMount()가 실행된다.
