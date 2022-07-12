@@ -17,6 +17,14 @@ const computerChoice = (imgCoord) => { // 컴퓨터가 묵-찌-빠 중 뭘 내�
     // return Object.entries(rspCoords).find(function(v) {
     //     return v[1] === imgCoord;
     //   })[0];
+
+    //     Object.entries(rspCoords).find((v)=> v[1]);  ['바위', '0']
+    // const rspCoords = {
+    //     가위: '-142px',
+    //     바위: '0',
+    //     보: '-284px',
+    //   };
+    // Object.entries(rspCoords).find((v)=> v[1]); ['가위', '-142px']
 };
 
 // Hooks가 아닌 Class를 사용하는 경우🟢 Hooks를 사용하는 경우 무시해두..! ❌
