@@ -23,7 +23,7 @@ class Lotto extends Component {
 
     timeouts = []; // Hooks에서는 useRef가 setTimeout이나 seTIntervatimersl의 취소 역할을 하기위한 변수로 사용되었었지?🟢
 
-    componentDidMount() { // 첫 렌더링 되자마자 setTimeout을 진행
+    runTimeouts = () => {
         const { winNumbers } = this.state;
         for (let i =0; i < winNumbers.length -1; i++) { // let 사용은 클로저 문제를 안일으킴 
             this.timeouts[i] =setTimeout(()=>{
@@ -42,10 +42,34 @@ class Lotto extends Component {
         }, 7000);
     }
 
-    componentWillUnmount () { // Lotto컴포넌트 삭제 시, 메모리 누수문제 해결
+    componentDidMount() { // 첫 렌더링 되자마자 setTimeout을 진행
+        console.log('didMount');
+        this.runTimeouts();
+        console.log('로또 숫자를 생성합니다.');
+    }
+
+    componentDidUpdate(prevProps, prevState) { 
+        console.log('didUpdate');
+        if (this.state.winBalls.length === 0) { // componentDidUpdate는 실행되지만 조건문으로 원하는 순간에 runTimeouts실행🟢
+            this.runTimeouts();
+        }
+    }
+
+    componentWillUnmount () { // Lotto컴포넌트 삭제 시, 메모리 누수문제 해결🟢
         this.timeouts.forEach((v)=> { // forEach(element, index) 
             clearTimeout(v);
         })
+    }
+
+    onClickRedo = () => {
+        console.log('onClickRedo');
+        this.setState({
+            winNumbers: getWinNumber(), // 당첨 숫자들
+            winBalls: [],
+            bonus: null, // 보너스 공
+            redo: false,
+        });
+        this.timeouts = [];
     }
 
     render() {
