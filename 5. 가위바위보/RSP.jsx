@@ -54,7 +54,7 @@ const RSP = () => { // state, props 바뀔 떄마다 함수 컴포넌트 전체 
     // child가 props가 바뀌면 랜더링이 되는데 React.memo로 함수 컴포넌트를 감싸줘야 리렌더링이 안됨.   
 
 
-
+    // 필요할 떄 setInterval을 쓰고 componentWillUnmount에서 정리(interval 취소는 필수)만 하면 된다.🟢🟢
 
 
 
