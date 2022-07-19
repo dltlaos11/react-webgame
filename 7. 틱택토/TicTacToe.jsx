@@ -47,6 +47,7 @@ const reducer = (state, action) => {
         case CLICK_CELL: {
             const tableData = [...state.tableData]; // 기존의 tableData 얕은 복사🟢, 객체가 있으면 얕은복사를 해줘야  
             tableData[action.row] = [...tableData[action.row]];
+            // action.row: Td에서 몇 번쨰 줄이다, action.cell: 몇 번쨰 칸이다.
             // 객체에 대한 불변성을 위해 얕은 복사🟣, immer 라이브러리로 가독성 해결
             // row와 cell을 action에서 받아서 처리하는 것🟢
             // 객체가 있으면 또 얕은복사로 처리해줘야 한다 🟢🟢 불변성 지키는데 단점이다 -> 얕은복사로 펴주는게, 그래서 immer로 가독성 해결
