@@ -15,6 +15,7 @@ import Form from './Form';
 
 export const TableContext = createContext({
     tableData: [],
+    halted: true,
     dispatch: () => {},
 }); // createContext함수 실행, 안에 초깃값 넣어줄 수 있다, 다른 파일에서 사용할 수 있게 "export"
 
@@ -22,6 +23,7 @@ const initialState = {
     tableData: [],
     timer: 0,
     result: '',
+    halted: true,
 };
 
 const plantMine =(row, cell, mine) => {
@@ -55,15 +57,81 @@ const plantMine =(row, cell, mine) => {
 };
 
 export const START_GAME = 'START_GAME';
+export const OPEN_CELL = 'OPEN_CELL';
+export const CLICK_MINE = 'CLICK_MINE';
+export const FLAG_CELL = 'FLAG_CELL';
+export const QUESTION_CELL = 'QUESTION_CELL';
+export const NORMALIZE_CELL = 'NORMALIZE_CELL';
 
+
+// reducer가 action 발생 시에 state를 어떻게 바꿀지 처리하는 부분이기 때문에
 const reducer = (state, action) => {
     switch (action.type) {
         case START_GAME:
             return {
                 ...state,
                 tableData: plantMine(action.row, action.cell, action.mine),
+                halted: false,
                  // action.row, action.cell, action.mine으로 지뢰를 심을 것.
             }
+        case OPEN_CELL:{
+            const tableData = [...state.tableData];
+            tableData[action.row] = [...state.tableData[action.row]];
+            tableData[action.row][action.cell] = CODE.OPENED; // 클릭한 row,cell에 opened로 바뀜
+            return {  // 클릭한 칸의 코드를 opened로
+                ...state,
+                tableData,
+            };
+        }
+        case CLICK_MINE:{ // 지뢰 클릭
+            const tableData = [...state.tableData];
+            tableData[action.row] = [...state.tableData[action.row]];
+            tableData[action.row][action.cell] = CODE.CLICKED_MINE; // 클릭한 칸을 CLICKED_MINE으로 변경
+            return {
+                ...state,
+                tableData,
+                halted: true //게임을 멈추기 위함, 지뢰 클릭시 게임 멈춤.
+            };
+        }
+        case FLAG_CELL: {
+            const tableData = [...state.tableData];
+            tableData[action.row] = [...state.tableData[action.row]];
+            if (tableData[action.row][action.cell] === CODE.MINE){ // 깃발을 꽃을 칸이 지뢰가 있는 칸이면 FLAG_MINE으로 해주고
+                tableData[action.row][action.cell] = CODE.FLAG_MINE; // 클릭한 칸을 CLICKED_MINE으로 변경
+            } else { // 지뢰가 없는 칸인 경우
+                tableData[action.row][action.cell] = CODE.FLAG; // 클릭한 칸을 CLICKED_MINE으로 변경
+            }  
+            return {
+                ...state,
+                tableData,
+            };
+        }
+        case QUESTION_CELL: {
+            const tableData = [...state.tableData];
+            tableData[action.row] = [...state.tableData[action.row]];
+            if (tableData[action.row][action.cell] === CODE.FLAG_MINE){ // 깃발심어진 상태에서 물음표를 만드는데
+                tableData[action.row][action.cell] = CODE.QUESTION_MINE; // 깃발 지뢰인 경우 물음표 지뢰로 바꾸고 
+            } else { // 지뢰가 없는 깃발 칸이면
+                tableData[action.row][action.cell] = CODE.QUESTION; 
+            }  
+            return {
+                ...state,
+                tableData,
+            };
+        }
+        case NORMALIZE_CELL: {
+            const tableData = [...state.tableData];
+            tableData[action.row] = [...state.tableData[action.row]];
+            if (tableData[action.row][action.cell] === CODE.QUESTION_MINE){ // 물음표가 있는데 지뢰까지 있으면  
+                tableData[action.row][action.cell] = CODE.MINE; // 지뢰로 바꾸고
+            } else { // 물음표만 있으면
+                tableData[action.row][action.cell] = CODE.NORMAL; // 보통으로 바꿔주고 
+            }  
+            return {
+                ...state,
+                tableData,
+            };
+        }
         default:
             return state;
     }
@@ -72,7 +140,7 @@ const reducer = (state, action) => {
 const MineSearch = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const value = useMemo(() => ({ tableData: state.tableData, dispatch}), [state.tableData]);
+    const value = useMemo(() => ({ tableData: state.tableData, halted: state.halted, dispatch}), [state.tableData, state.halted]);
     // useMemo로 객체 값을 기억하기🟢 state.tableData가 바뀔 떄 갱신
 
     return (
