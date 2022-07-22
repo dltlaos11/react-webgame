@@ -77,7 +77,29 @@ const reducer = (state, action) => {
         case OPEN_CELL:{
             const tableData = [...state.tableData];
             tableData[action.row] = [...state.tableData[action.row]];
-            tableData[action.row][action.cell] = CODE.OPENED; // 클릭한 row,cell에 opened로 바뀜
+            // tableData[action.row][action.cell] = CODE.OPENED; // 클릭한 row,cell에 opened로 바뀜
+            let around = [];
+            if(tableData[action.row -1]){ // 윗 줄 있는 경우 검사대상에 넣는다.
+                around = around.concat(
+                    tableData[action.row -1 ][action.cell- 1],
+                    tableData[action.row -1][action.cell],
+                    tableData[action.row-1][action.cell+1],
+                );
+            }
+            around = around.concat(
+                tableData[action.row][action.cell -1],
+                tableData[action.row][action.cell+1],
+            );
+            if(tableData[action.row+1]){ // 아랫줄 있는 경우 검사대상에 넣는다.
+                around = around.concat(
+                    tableData[action.row +1 ][action.cell- 1],
+                    tableData[action.row +1][action.cell],
+                    tableData[action.row+1][action.cell+1],
+                );
+            }
+            const count = around.filter((v) => [CODE.MINE, CODE.FLAG_MINE, CODE.QUESTION_MINE].includes(v)).length;
+            console.log(around, count);
+            tableData[action.row][action.cell] = count;
             return {  // 클릭한 칸의 코드를 opened로
                 ...state,
                 tableData,
@@ -139,8 +161,9 @@ const reducer = (state, action) => {
 
 const MineSearch = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const {tableData, halted, timer, result} = state;
 
-    const value = useMemo(() => ({ tableData: state.tableData, halted: state.halted, dispatch}), [state.tableData, state.halted]);
+    const value = useMemo(() => ({ tableData: tableData, halted: halted, dispatch}), [tableData, halted]);
     // useMemo로 객체 값을 기억하기🟢 state.tableData가 바뀔 떄 갱신
 
     return (
@@ -156,9 +179,9 @@ const MineSearch = () => {
         // 객체가 새로 생긴다는 것은 ContextApi를 쓰는 자식들도 매번 새로 리렌더링. 성능적으로 문제, 캐싱을 해줘야함 -> useMemo🟣
         <TableContext.Provider value={value}>
             <Form />
-            <div>{state.timer}</div>
+            <div>{timer}</div>
             <Table />
-            <div>{state.result}</div>
+            <div>{result}</div>
         </TableContext.Provider>
     );
 };

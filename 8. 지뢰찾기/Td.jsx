@@ -45,7 +45,7 @@ const getTdText = (code) => {
     case CODE.QUESTION:
       return '?';
     default:
-      return code || '';
+      return code || ''; // 주변 지회 갯수가 0인경우 0표시 를 빈칸으로
   }
 //   switch (code) {
 //     case CODE.NORMAL:
