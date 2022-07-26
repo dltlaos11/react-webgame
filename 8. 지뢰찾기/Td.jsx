@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, memo, useMemo } from 'react';
 import { CLICK_MINE, CODE, FLAG_CELL, NORMALIZE_CELL, OPEN_CELL, QUESTION_CELL, TableContext } from './MineSearch';
 
 const getTdStyle = (code) => {
@@ -31,6 +31,7 @@ const getTdStyle = (code) => {
 };
 
 const getTdText = (code) => {
+  console.log('getTdtext'); // 클릭한 cell에 대해서만 실행, useMemo적용으로 1번만,🟢
   switch (code) {
     case CODE.NORMAL:
       return '';
@@ -57,10 +58,14 @@ const getTdText = (code) => {
 // }
 };
 
-const Td = ({rowIndex, cellIndex}) => { 
-    const { tableData, dispatch, halted } = useContext(TableContext);
-    // tableData는 useContext로부터 받고,
+const Td = memo(({rowIndex, cellIndex}) => { 
+  const { tableData, dispatch, halted } = useContext(TableContext);
+  // tableData는 useContext로부터 받고,
     // 내가 몇 번째칸 몇 번째 줄인지는 부모로부터 props로 받아서 td에서 데이터 위치 구성 가능🟢
+    
+    // contextApI, useContext를 쓰면 state가 바뀔떄마다 Td함수가 기본적으로 한번 리렌더링  됨. 
+    // contextAPI를 쓰면 실제로 리렌더링이 안되더라도 react devtools로 전제가 번쩍이는것을 볼수 있다.
+    // useMemo적용으로 한 번만 실행되지만 보이는 것만 그렇다. ㅎ🟢
 
     const onClickTd = useCallback(() => {
       if (halted) { // 게임이 멈췄으면 아무일도 하지않게 retrun🟢🟢
@@ -111,12 +116,32 @@ const Td = ({rowIndex, cellIndex}) => {
       }
     }, [tableData[rowIndex][cellIndex], halted]);
 
-    return (
-        <td style={getTdStyle(tableData[rowIndex][cellIndex])}
-            onClick={onClickTd}
-            onContextMenu={onRightClickTd}
-        >{getTdText(tableData[rowIndex][cellIndex])}</td>
-    );
-};
+    console.log('td rendered');
+    // 이 부분이 실행되는 것은 괜찮은데 return부분이 실행되는 것은 리렌더링되는 것이다.
+    // 함수 자체는 실행될 수 있어도 return에 있는 부분만 cashing해주면 된다.
+    
+    // 🔵return 부분 캐싱🔵
+    // useMemo로 값을 캐싱 useMemo(() => (<></>), [변하는 값]);
+
+    return <RealTd onClickTd={onClickTd} onRightClickTd={onRightClickTd} data={tableData[rowIndex][cellIndex]}/> // 🟢🟢
+    // useMemo🟣🟣
+  //   return useMemo(() => ( 
+  //     <td style={getTdStyle(tableData[rowIndex][cellIndex])}
+  //         onClick={onClickTd}
+  //         onContextMenu={onRightClickTd}
+  //     >{getTdText(tableData[rowIndex][cellIndex])}</td>
+  // ), [tableData[rowIndex][cellIndex]]);
+});
+
+// useMemo의 사용말고 컴포넌트를 2개로 쪼개기🟢🟢
+const RealTd = memo(({ onClickTd, onRightClickTd, data }) => {
+  console.log('real td rendered');
+  return (
+    <td style={getTdStyle(data)}
+          onClick={onClickTd}
+          onContextMenu={onRightClickTd}
+      >{getTdText(data)}</td>
+  )
+});
 
 export default Td;
