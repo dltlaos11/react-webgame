@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import NumberBaseball from '../3. 숫자야구/NumberBaseball'
 import RSP from '../5. 가위바위보/RSPClass'
 import Lotto from '../6. 로또/Lotto'
@@ -13,6 +13,7 @@ class GameMatcher extends Component {
         console.log(urlSearchParams.get('hello'));
         // zerocho라는 결과 값이 콘솔에 출력🟢 이렇게 Parsing은 따로 해줘야 한다.
 
+        // 조건문에 따른 분기 처리, match는 react-router에서 props로 넘겨주는건데, :name이라는 동저라우팅에 사용되는 주소의 params값이 match.params.name이라는 값에 담김🟢  
         if (this.props.match.params.name === 'number-baseball') {
             return <NumberBaseball />
         }
@@ -22,6 +23,7 @@ class GameMatcher extends Component {
         else if (this.props.match.params.name === 'lotto-generator') {
             return <Lotto />
         }
+        // 🟢Ver5🟢
         // Route -> history, match, loaction🟢
         // history: 페이지에 대한 기억이 존재. goBack, goForward, push, replace 등의 함수들이 있어서 프로그래밍적으로 페이지 이동이 가능
             //      이게 왜 필요하냐면 react-router는 눈속임이다. 실제로 페이지가 바뀌는게 아니라 페이지가 바뀌는 척읋 하는 것이기 떄문에 브라우저가 말을 안 들을 수 있다.🥲
@@ -35,6 +37,33 @@ class GameMatcher extends Component {
         // history, match, loaction이 출력, Route 컴포넌트에서 GameMatcher가 연결되어 있는데 history, match, loaction을 알려준다.
         // 근데 Route연결이 안된 컴포넌트에서 쓰고 싶다면 HoC(Higher Order Component)패턴으로 감싸주면 history, match, loaction이 생김   
         // export default withRouter(GameMatcher);🟢 Hoc
+
+        // 🟢Ver6🟢
+        // Reat-router, Next-router 등이 React 생태계에서 유명한데, Reach-router도 매니악하게 인기가 있었는데 react-router를 합침, 둘의 특징이 반반씩 섞여있다.
+        // remix, 요즘 뜨고있는 프레임워크이다. react를 기반으로 하는 다른 프레임워크.  
+
+        // const history = useHistory(); // Ver 5🟢
+        // history.goBack(); 뒤로가기
+        // history.push(...);
+        
+        // const navigate = useNavigate(); // Ver 6🟢 숫자로 조절
+        // navigate(-1); 뒤로가기
+
+        // 이전 버전에서는 if문으로 분기를 나눴는데 그냥 <Routes>로 감싸서 처리🔵
+        // return (
+        //     <Routes>
+        //       <Route path="number-baseball" element={<NumberBaseball />} />
+        //       <Route path="rock-scissors-paper" element={<RSP />} />
+        //       <Route path="lotto-generator" element={<Lotto />} />
+        //       <Route
+        //         path="*"
+        //         element={<div>
+        //           일치하는 게임이 없습니다.
+        //         </div>}
+        //       />
+        //     </Routes>
+        //   );
+
         return (
             <div>
                 일치하는 게임이 없습니다.

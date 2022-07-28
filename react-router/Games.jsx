@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, HashRouter, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Link, Route, Switch, Routes } from 'react-router-dom';
 import NumberBaseball from '../3. 숫자야구/NumberBaseball'
 import RSP from '../5. 가위바위보/RSPClass'
 import Lotto from '../6. 로또/Lotto'
@@ -49,7 +49,7 @@ const Games = () => {
             <Route path="/rock-scissors-paper" component={RSP} />
             <Route path="/lotto-generator" component={Lotto}/> */}
             
-            {/* 동적라우팅 🟢 
+            {/* 동적라우팅 🟢 보통 이 방식을 사용하다 자식에게 props를 넘기거나 할 떄는 component대신 render를 사용
             <Route path="/game/:name" component={GameMatcher}/> */}
             {/* Route들이 너무 늘어나면 문제가 되기 떄문에 효율적으로 Route 갯수를 관리할 수 있는 동적 Route 매칭, 🟢
                 :name -> params라 부름, 이 부분이 동적으로 바뀜  
@@ -60,11 +60,40 @@ const Games = () => {
             {/* <Route path="/game/:name" component={() => <GameMatcher props="123456" />}/> */}
             {/* 2️⃣ render, 부모의 props를 자식에게 전달 가능, props에 history, match, location 존재*/}
             <Route path="/game/:name" render={(props) => <GameMatcher {...props} />}/>
+            
+            {/* 🟣Switch: Route 중에서 첫번째로 일치하는 것만 되게 하고싶은 경우 사용, 첫 번째것과 일치하면 그 다음것이 일치하더라도 화면에 렌더링이 안됨.
+                          동시에 Route여러개 되는 것을 방지, 상위 주소랑 하위 주소가 있는 경우(/, /number..) 상위 주소도 일치하는 것으로 처서 exact를 적용해서 해결🟢 
+             */}
+            <Switch>
+                <Route path="/game/:name" render={(props) => <GameMatcher {...props} />}/>
+                <Route path="/game/number-baseball" render={(props) => <GameMatcher {...props} />}/>
+            </Switch>
+            
+            {/* exact🟢 */}
+            <Switch>
+                <Route exact path="/" render={(props) => <GameMatcher {...props} />}/>
+                {/* /game/number-baseball인데 /도 일치한다고 생각한다. 그래서 2개의 컴포넌트가 렌더링 됨. 이런경우 Switch도 해결 못함.🟢  그런 경우 exact를 붙여서 해결 ! */}
+                <Route path="/game/:name" render={(props) => <GameMatcher {...props} />}/>
+            </Switch>
 
+            {/* ------------------------------------------------------------------------------------------------  */}
+            {/*🟣 Ver 6 🟣*/}
+            {/* npm outdated로 최신 업데이트 유지, react-router github에서 package.json이나 version 비교
+                우측에 Release 클릭해서 이전 버전과 비교하거나, ChangeLog라고 해서 변경 확인 가능, 그리고 변경된 것이 많은 경우 Migration이라고해서 급격하게 변하면 guide확인 가능🟢🟢
+                <Switch> -> <Routes>로 변경🟢
+                exact가 사라졌다.🟢
+                component, render 다사라지고 element🟢통일
+                if문으로 동적라우팅 처리안하고 Routes로 router로 처리 GameMatcher는 /game/:name의 하위주소에서 상대경로로 하면 :name에 알아서 들어간다.🟢
+                history.goBack -> navigate(-1)🟢
 
+                typescript가 아니라 javascript로 version up하는 경우 codemod 라이브러리를 사용하면 정확하게 모든파일 싹다 버전 업이 가능🟢🟢
+            */}
+            <Routes>
+                <Route path="/" element={<GameMatcher />}/>
+                <Route path="/game/:name" element={<GameMatcher />}/>
+            </Routes>
 
-
-
+ 
             </div>
         </BrowserRouter>
         // react-router을 사용하고 싶으면 컴포넌트의 최상위를 BrowserRouter로 감싸줘야 한다. 아니면 client에서 Games 컴포넌트를 감싸줘도 된다.🟢
